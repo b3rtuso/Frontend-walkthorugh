@@ -1,5 +1,7 @@
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import TourPage from "./pages/ToursPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 import Footer from "./components/Footer.jsx";
 
 export default function App() {
@@ -8,7 +10,10 @@ export default function App() {
       <Navbar />
 
       <main className="flex-1 max-w-6xl mx-auto w-full pb-10 px-4">
-        <TourPage />
+        <Routes>
+          <Route path="/" element={<TourPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
       </main>
 
       <Footer />
