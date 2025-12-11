@@ -55,3 +55,7 @@ export let inquiries = [
     createdAt: "2025-01-11 02:15 PM",
   }
 ];
+
+export function getTours() {
+  return Promise.resolve([...tours]);
+}
