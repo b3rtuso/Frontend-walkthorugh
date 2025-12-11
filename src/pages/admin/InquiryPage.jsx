@@ -154,7 +154,7 @@ export default function InquiryPage() {
           </div>
         ))}
         {inquiries.length === 0 && (
-          <p className="text-sm text-gray-500 col-span-full text-center">
+          <p className="text-sm text-gray-500 col-span-full">
             No inquiries yet.
           </p>
         )}

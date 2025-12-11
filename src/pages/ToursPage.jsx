@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import TourCard from "../components/TourCard.jsx";
+import InquiryModal from "../components/InquiryModal.jsx";
 import { getTours, addInquiry } from "../mock/data.js";
 
 // Helper: convert "10h" or "7h 45m" -> minutes
@@ -178,6 +179,11 @@ export default function ToursPage() {
     }
   };
 
+  const openDetails = (tour) => {
+    setDetailsTour(tour);
+    setDetailsOpen(true);
+  };
+
   return (
     <main className="px-6">
       {/* Filters & search bar */}
@@ -235,10 +241,32 @@ export default function ToursPage() {
 
       {/* Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <TourCard />
+        {filtered.map((tour) => (
+          <TourCard
+            key={tour.id}
+            tour={tour}
+            onInquire={handleInquire}
+            onViewDetails={openDetails}
+          />
+        ))}
+        {filtered.length === 0 && (
+          <p className="text-sm text-gray-500 col-span-full">No tours found.</p>
+        )}
       </div>
 
       {/* Modals */}
+      <InquiryModal
+        open={inquiryOpen}
+        tour={selectedTour}
+        onClose={() => setInquiryOpen(false)}
+        onSubmit={handleSubmitInquiry}
+      />
+
+      <DetailsModal
+        open={detailsOpen}
+        onClose={() => setDetailsOpen(false)}
+        tour={detailsTour}
+      />
     </main>
   );
 }
