@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TourCard from "../components/TourCard.jsx";
-import { getTours } from "../mock/data.js";
+import { getTours, addInquiry } from "../mock/data.js";
 
 // Helper: convert "10h" or "7h 45m" -> minutes
 function durationToMinutes(str = "") {
@@ -88,6 +88,10 @@ export default function ToursPage() {
   const [typeFilter, setTypeFilter] = useState("All types");
   const [sortBy, setSortBy] = useState("recommendation"); // recommendation | price-asc | price-desc | duration-asc | name-asc
 
+  const [selectedTour, setSelectedTour] = useState(null);
+  const [inquiryOpen, setInquiryOpen] = useState(false);
+  const [detailsTour, setDetailsTour] = useState(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const [search, setSearch] = useState("");
 
   const loadTours = async () => {
@@ -153,6 +157,26 @@ export default function ToursPage() {
   }, [tours, search, typeFilter, sortBy]);
 
   // modal handlers
+  const handleInquire = (tour) => {
+    setSelectedTour(tour);
+    setInquiryOpen(true);
+  };
+
+  const handleSubmitInquiry = async (payload) => {
+    try {
+      await addInquiry({
+        ...payload,
+        package_name: selectedTour?.name,
+        type: selectedTour?.type,
+        locations: selectedTour?.locations,
+      });
+      alert("Inquiry sent! (mock data only)");
+      setInquiryOpen(false);
+    } catch (err) {
+      console.error(err);
+      alert("Error sending inquiry (mock).");
+    }
+  };
 
   return (
     <main className="px-6">
