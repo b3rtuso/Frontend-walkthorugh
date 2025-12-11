@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import TourFormModal from "../../components/admin/TourFormModal.jsx";
 import { getTours } from "../../mock/data.js";
 
 export default function PackagePage() {
   const [tours, setTours] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
   const loadTours = async () => {
@@ -18,6 +20,11 @@ export default function PackagePage() {
   useEffect(() => {
     loadTours();
   }, []);
+
+  const openAdd = () => {
+    setEditingTour(null);
+    setModalOpen(true);
+  };
 
   return (
     <div>
@@ -72,7 +79,10 @@ export default function PackagePage() {
         )}
       </div>
       <div className="flex justify-end gap-3 mt-6">
-        <button className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]">
+        <button
+          onClick={openAdd}
+          className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]"
+        >
           + Add Tour
         </button>
         <button className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]">
@@ -82,6 +92,11 @@ export default function PackagePage() {
           Delete
         </button>
       </div>
+      <TourFormModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSaved={loadTours}
+      />
     </div>
   );
 }
