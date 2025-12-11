@@ -115,6 +115,14 @@ export default function InquiryPage() {
                 {inq.status || "Available"}
               </p>
             </div>
+            <div className="flex items-center justify-between mt-3">
+              <button
+                onClick={() => openView(inq)}
+                className="px-4 py-1 rounded-full bg-[#d3ebd7] hover:bg-[#c1dfc7] text-xs font-medium"
+              >
+                view
+              </button>
+            </div>
           </div>
         ))}
       </div>
