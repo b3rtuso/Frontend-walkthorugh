@@ -87,3 +87,16 @@ export function deleteTour(id) {
 export function getInquiries() {
   return Promise.resolve([...inquiries]);
 }
+
+export function addInquiry(payload) {
+  const id = nextId(inquiries);
+  const createdAt = new Date().toLocaleString();
+  const full = { id, status: "Pending", createdAt, ...payload };
+  inquiries = [full, ...inquiries];
+  return Promise.resolve(full);
+}
+
+export function deleteInquiry(id) {
+  inquiries = inquiries.filter((inq) => Number(inq.id) !== Number(id));
+  return Promise.resolve();
+}
