@@ -5,6 +5,7 @@ import { getTours } from "../../mock/data.js";
 export default function PackagePage() {
   const [tours, setTours] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [editingTour, setEditingTour] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
   const loadTours = async () => {
@@ -23,6 +24,13 @@ export default function PackagePage() {
 
   const openAdd = () => {
     setEditingTour(null);
+    setModalOpen(true);
+  };
+
+  const openEditSelected = () => {
+    const tour = tours.find((t) => t.id === selectedId);
+    if (!tour) return alert("No tour selected");
+    setEditingTour(tour);
     setModalOpen(true);
   };
 
@@ -85,7 +93,10 @@ export default function PackagePage() {
         >
           + Add Tour
         </button>
-        <button className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]">
+        <button
+          onClick={openEditSelected}
+          className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]"
+        >
           Edit
         </button>
         <button className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]">
@@ -95,6 +106,7 @@ export default function PackagePage() {
       <TourFormModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
+        initial={editingTour}
         onSaved={loadTours}
       />
     </div>
