@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PackagePage from "./PackagePage.jsx";
+import InquiryPage from "./InquiryPage.jsx";
 
 export default function AdminLayout() {
   const [tab, setTab] = useState("package");
@@ -18,11 +19,12 @@ export default function AdminLayout() {
             Package
           </button>
           <button
-            className={`px-5 py-2 rounded-full text-sm font-medium 
-
-                bg-[#d3ebd7] text-gray-800
-                bg-white text-gray-600 border border-gray-200
-            `}
+            onClick={() => setTab("inquiry")}
+            className={`px-5 py-2 rounded-full text-sm font-medium ${
+              tab === "inquiry"
+                ? "bg-[#d3ebd7] text-gray-800"
+                : "bg-white text-gray-600 border border-gray-200"
+            }`}
           >
             Inquiry
           </button>
@@ -31,7 +33,7 @@ export default function AdminLayout() {
           Sign out
         </button>
       </div>
-      {tab === "package" ? <PackagePage /> : <div>Inquiry Section</div>}
+      {tab === "package" ? <PackagePage /> : <InquiryPage />}
     </main>
   );
 }
