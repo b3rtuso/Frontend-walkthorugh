@@ -83,3 +83,7 @@ export function deleteTour(id) {
   tours = tours.filter((t) => Number(t.id) !== Number(id));
   return Promise.resolve();
 }
+
+export function getInquiries() {
+  return Promise.resolve([...inquiries]);
+}
