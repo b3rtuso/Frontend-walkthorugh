@@ -13,10 +13,11 @@ export default function App() {
   const hideFooter = location.pathname.startsWith("/admin");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800">
       <Navbar />
 
-      <div className="max-w-6xl mx-auto pb-10">
+      {/* Main content expands to push footer down */}
+      <div className="max-w-6xl mx-auto flex-1 w-full">
         <Routes>
           <Route path="/" element={<ToursPage />} />
           <Route path="/login" element={<LoginPage />} />
