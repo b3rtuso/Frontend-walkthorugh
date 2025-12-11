@@ -56,22 +56,18 @@ export let inquiries = [
   }
 ];
 function nextId(list) {
-  return list.length ? Math.max(...list.map((item) => Number(item.id) || 0)) + 1 : 1;
+  return list.length
+    ? Math.max(...list.map((item) => Number(item.id) || 0)) + 1
+    : 1;
 }
-
 export function getTours() {
   return Promise.resolve([...tours]);
 }
 
-export function saveTour(payload, id) {
-  if (id) {
-    tours = tours.map((t) =>
-      Number(t.id) === Number(id) ? { ...t, ...payload, id } : t
-    );
-  } else {
-    const newId = nextId(tours);
-    const newTour = { id: newId, ...payload };
-    tours = [...tours, newTour];
-  }
-  return Promise.resolve();
+export function addTour(payload) {
+  const newId = nextId(tours);
+  const newTour = { id: newId, ...payload };
+  tours = [...tours, newTour];
+
+  return Promise.resolve(newTour);
 }

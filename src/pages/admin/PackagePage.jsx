@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-import TourFormModal from "../../components/admin/TourFormModal.jsx";
 import { getTours } from "../../mock/data.js";
 
 export default function PackagePage() {
   const [tours, setTours] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editingTour, setEditingTour] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
   const loadTours = async () => {
@@ -21,17 +18,6 @@ export default function PackagePage() {
   useEffect(() => {
     loadTours();
   }, []);
-
-  const openAdd = () => {
-    setModalOpen(true);
-  };
-
-  const openEditSelected = () => {
-    const tour = tours.find((t) => t.id === selectedId);
-    if (!tour) return alert("No tour selected");
-    setEditingTour(tour);
-    setModalOpen(true);
-  };
 
   return (
     <div>
@@ -86,28 +72,16 @@ export default function PackagePage() {
         )}
       </div>
       <div className="flex justify-end gap-3 mt-6">
-        <button
-          onClick={openAdd}
-          className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]"
-        >
+        <button className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]">
           + Add Tour
         </button>
-        <button
-          onClick={openEditSelected}
-          className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]"
-        >
+        <button className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]">
           Edit
         </button>
         <button className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]">
           Delete
         </button>
       </div>
-      <TourFormModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        initial={editingTour}
-        onSaved={loadTours}
-      />
     </div>
   );
 }
