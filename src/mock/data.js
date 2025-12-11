@@ -31,7 +31,7 @@ export let tours = [
   }
 ];
 
-export let inquiries = [
+export let inquiries  = [
   {
     id: 1,
     name: "Juan Dela Cruz",
@@ -55,6 +55,9 @@ export let inquiries = [
     createdAt: "2025-01-11 02:15 PM",
   }
 ];
+
+
+
 function nextId(list) {
   return list.length ? Math.max(...list.map((item) => Number(item.id) || 0)) + 1 : 1;
 }
