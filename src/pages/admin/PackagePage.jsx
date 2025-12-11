@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TourFormModal from "../../components/admin/TourFormModal.jsx";
-import { getTours } from "../../mock/data.js";
+import { getTours, deleteTour as deleteTourMock } from "../../mock/data.js";
 
 export default function PackagePage() {
   const [tours, setTours] = useState([]);
@@ -32,6 +32,19 @@ export default function PackagePage() {
     if (!tour) return alert("No tour selected");
     setEditingTour(tour);
     setModalOpen(true);
+  };
+
+  const deleteSelected = async () => {
+    const tour = tours.find((t) => t.id === selectedId);
+    if (!tour) return alert("No tour selected");
+    if (!window.confirm(`Delete "${tour.name}"? (mock only)`)) return;
+    try {
+      await deleteTourMock(tour.id);
+      loadTours();
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting tour (mock).");
+    }
   };
 
   return (
@@ -81,7 +94,7 @@ export default function PackagePage() {
           );
         })}
         {tours.length === 0 && (
-          <p className="text-sm text-gray-500 col-span-full">
+          <p className="text-sm text-gray-500 col-span-full text-center">
             No tours defined yet.
           </p>
         )}
@@ -99,7 +112,10 @@ export default function PackagePage() {
         >
           Edit
         </button>
-        <button className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]">
+        <button
+          onClick={deleteSelected}
+          className="px-6 py-2 rounded-full bg-[#d3ebd7] text-sm font-medium hover:bg-[#c1dfc7]"
+        >
           Delete
         </button>
       </div>
