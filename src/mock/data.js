@@ -75,3 +75,8 @@ export function saveTour(payload, id) {
   }
   return Promise.resolve();
 }
+
+export function deleteTour(id) {
+  tours = tours.filter((t) => Number(t.id) !== Number(id));
+  return Promise.resolve();
+}
