@@ -1,24 +1,40 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
-  const [showPass, setShowPass] = useState(false);
+  const [form, setForm] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+  const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate login
+    // Simple front-end only mock login
+    // Username: admin  Password: admin123
     setTimeout(() => {
-      alert("Logged in!");
       setLoading(false);
-    }, 1000);
-  }
+      if (form.username === "admin" && form.password === "admin123") {
+        localStorage.setItem("lavera_admin_token", "lavera-admin-token");
+        navigate("/admin");
+      } else {
+        alert(
+          "Invalid credentials. Try username: admin and password: admin123."
+        );
+      }
+    }, 600);
+  };
 
   return (
     <main className="min-h-screen bg-[#edf7ef] flex items-center justify-center px-4">
       <div className="w-full max-w-lg bg-white shadow-2xl rounded-3xl p-10 animate-fadeIn relative">
-        {/* Logo */}
+        {/* Lavera Logo */}
         <div className="absolute left-1/2 -top-14 -translate-x-1/2">
           <img
             src="/lavera.png"
@@ -35,7 +51,7 @@ export default function LoginPage() {
         </div>
 
         {/* Login Form */}
-        <form onSubmit={handleSubmit} className="mt-10 space-y-6">
+        <form className="mt-10 space-y-6" onSubmit={handleSubmit}>
           {/* Username */}
           <div>
             <label className="text-xs font-semibold text-gray-600">
@@ -46,9 +62,11 @@ export default function LoginPage() {
               <input
                 type="text"
                 name="username"
-                required
-                placeholder="Enter username"
+                onChange={handleChange}
+                value={form.username}
                 className="flex-1 bg-transparent outline-none text-sm"
+                placeholder="Enter username"
+                required
               />
             </div>
           </div>
@@ -63,9 +81,10 @@ export default function LoginPage() {
               <input
                 type={showPass ? "text" : "password"}
                 name="password"
-                required
-                placeholder="Enter password"
+                onChange={handleChange}
+                value={form.password}
                 className="flex-1 bg-transparent outline-none text-sm"
+                placeholder="Enter password"
               />
               <span
                 onClick={() => setShowPass(!showPass)}
@@ -91,7 +110,7 @@ export default function LoginPage() {
         </form>
       </div>
 
-      {/* Animations */}
+      {/* animations */}
       <style>{`
         .animate-bounceSlow {
           animation: bounceSlow 3s infinite ease-in-out;
